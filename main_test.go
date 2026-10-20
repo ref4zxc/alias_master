@@ -23,3 +23,25 @@ func TestFormatLine(t *testing.T) {
 		})
 	}
 }
+
+func TestConfigPath(t *testing.T) {
+	tests := []struct {
+		name    string
+		homeDir string
+		relPath string
+		want    string
+	}{
+		{"Без слэша с обеих сторон", "/home/user", ".config/fish/config1.fish", "/home/user/.config/fish/config1.fish"},
+		{"Слэш в начале relPath", "/home/user", "/.config/fish/config1.fish", "/home/user/.config/fish/config1.fish"},
+		{"Слэш в конце homeDir", "/home/user/", ".config/fish/config1.fish", "/home/user/.config/fish/config1.fish"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := configPath(tt.homeDir, tt.relPath)
+			if got != tt.want {
+				t.Errorf("want %q, got %q", tt.want, got)
+			}
+		})
+	}
+}

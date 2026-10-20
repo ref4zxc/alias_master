@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"path/filepath"
 )
 
 func parseArgs(args []string) (string, string, error) {
@@ -9,7 +10,7 @@ func parseArgs(args []string) (string, string, error) {
 }
 
 func configPath(homeDir string, relPath string) string {
-	panic("todo")
+	return filepath.Join(homeDir, relPath)
 }
 
 func formatLine(alias string, command string) string {
