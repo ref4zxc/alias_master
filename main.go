@@ -1,12 +1,17 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"path/filepath"
 )
 
 func parseArgs(args []string) (string, string, error) {
-	panic("todo")
+	if len(args) != 2 {
+		return "", "", errors.New("usage: alias_master <alias> <command>")
+	}
+
+	return args[0], args[1], nil
 }
 
 func configPath(homeDir string, relPath string) string {
