@@ -40,5 +40,24 @@ func writeToConfig(path string, str string) error {
 }
 
 func main() {
+	args := os.Args[1:]
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 
+	alias, command, err := parseArgs(args)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	path := configPath(homedir, ".config/fish/config1.fish")
+	formattedLine := formatLine(alias, command)
+
+	if err := writeToConfig(path, formattedLine); err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
