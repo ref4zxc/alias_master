@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
 	"path/filepath"
 )
 
@@ -24,7 +25,18 @@ func formatLine(alias string, command string) string {
 }
 
 func writeToConfig(path string, str string) error {
-	panic("todo")
+	file, err := os.OpenFile(path, os.O_WRONLY|os.O_APPEND|os.O_CREATE, 0644)
+	if err != nil {
+		return fmt.Errorf("open %s: %w", path, err)
+	}
+
+	defer file.Close()
+
+	if _, err := file.WriteString(str); err != nil {
+		return fmt.Errorf("write %s: %w", path, err)
+	}
+
+	return nil
 }
 
 func main() {

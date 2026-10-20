@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+	"os"
+	"path/filepath"
+	"testing"
+)
 
 func TestFormatLine(t *testing.T) {
 	tests := []struct {
@@ -84,5 +88,30 @@ func TestParseArgs(t *testing.T) {
 				t.Errorf("Command: want %q, got %q", tt.wantCommand, gotCommand)
 			}
 		})
+	}
+}
+
+func TestWriteToConfigAppend(t *testing.T) {
+	tmpDir := t.TempDir()
+	path := filepath.Join(tmpDir, "config1.fish")
+	first := "alias ll='ls -la'\n"
+	second := "alias cl='clear'\n"
+	want := first + second
+
+	if err := writeToConfig(path, first); err != nil {
+		t.Fatalf("first write: %v", err)
+	}
+
+	if err := writeToConfig(path, second); err != nil {
+		t.Fatalf("second write: %v", err)
+	}
+
+	data, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatalf("read back: %v", err)
+	}
+
+	if got := string(data); got != want {
+		t.Errorf("want %q, got %q", want, got)
 	}
 }
