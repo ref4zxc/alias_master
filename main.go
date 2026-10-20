@@ -18,6 +18,7 @@ func configPath(homeDir string, relPath string) string {
 	return filepath.Join(homeDir, relPath)
 }
 
+// TODO: разобрать случай с одинарными кавычками, например, grep 'x'
 func formatLine(alias string, command string) string {
 	return fmt.Sprintf("alias %s='%s'\n", alias, command)
 }
