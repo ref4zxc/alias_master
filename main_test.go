@@ -115,3 +115,13 @@ func TestWriteToConfigAppend(t *testing.T) {
 		t.Errorf("want %q, got %q", want, got)
 	}
 }
+
+func TestWriteToConfigMissingDir(t *testing.T) {
+	tmpDir := t.TempDir()
+	path := filepath.Join(tmpDir, "missing_dir", "config1.fish")
+	alias := "alias ll='ls -la'\n"
+
+	if err := writeToConfig(path, alias); err == nil {
+		t.Fatal("expected error, got nil")
+	}
+}
