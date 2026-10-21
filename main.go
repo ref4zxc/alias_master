@@ -53,7 +53,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	path := configPath(homedir, ".config/fish/config1.fish")
+	path := configPath(homedir, ".config/fish/config.fish")
 	formattedLine := formatLine(alias, command)
 
 	if err := writeToConfig(path, formattedLine); err != nil {
